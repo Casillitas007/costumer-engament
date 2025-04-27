@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAGU - Personalized Gifts for Every Occasion</title>
+    <style>
+        :root {
+            --primary: #D0B30E; /* Yellow from logo */
+            --secondary: #0A8A42; /* Green from logo */
+            --accent: #8B2C8F; /* Purple from logo */
+            --light: #f7f9f9;
+            --dark: #292f36;
+            --text: #2b2b2b;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--text);
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin: 0 1rem;
+        }
+        
+        .search-container input {
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            outline: none;
+            width: 100%;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 50%;
+        }
+        
+        .cart-details {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: white;
+            box-shadow: var(--shadow);
+            padding: 1rem;
+            border-radius: 8px;
+            width: 300px;
+            z-index: 1000;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(208, 179, 14, 0.1), rgba(10, 138, 66, 0.1));
+            padding: 3rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            color: var(--text);
+        }
+        
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .recommendations {
+            margin: 2rem 0;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            border: 1px solid rgba(10, 138, 66, 0.1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1rem;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-category {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var (--secondary);
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .add-to-cart {
+            background-color: var(--primary);
+            color: var(--dark);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .recommendations-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .occasion-filter {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .occasion-btn {
+            background-color: white;
+            color: var(--text);
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .occasion-btn.active {
+            background-color: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+        
+        .occasion-btn:hover {
+            border-color: var (--secondary);
+        }
+        
+        .checkout-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+            font-weight: 500;
+        }
+        
+        .remove-from-cart {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Chatbot styles */
+        .chatbot-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: var(--secondary);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .chatbot-header {
+            padding: 15px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .chatbot-input {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .chatbot-input button {
+            padding: 8px 15px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: #e6f2ff;
+            margin-left: auto;
+            border-radius: 15px 15px 0 15px;
+        }
+
+        .bot-message {
+            background: #f0f0f0;
+            margin-right: auto;
+            border-radius: 15px 15px 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="img/a.png" alt="PAGU Logo">
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search for gifts...">
+            </div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+            </div>
+            <div class="cart-icon">
+                <span>🛒</span>
+                <span class="cart-count">0</span>
+            </div>
+            <div class="cart-details">
+                <h4>Shopping Cart</h4>
+                <ul class="cart-items"></ul>
+                <p class="cart-total">Total: $0.00</p>
+                <button class="checkout-btn">Checkout</button>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <section class="hero">
+            <h1>Find the Perfect Gift for Every Occasion</h1>
+            <p>PAGU offers personalized gifts tailored to your preferences and special moments. Discover unique items that will bring joy to your loved ones.</p>
+        </section>
+        
+        <section class="recommendations">
+            <div class="recommendations-title">
+                <h2 class="section-title">✨ Recommended For You</h2>
+                <small>Based on your preferences</small>
+            </div>
+            
+            <div class="occasion-filter">
+                <button class="occasion-btn active" data-category="all">All</button>
+                <button class="occasion-btn" data-category="birthdays">Birthdays</button>
+                <button class="occasion-btn" data-category="anniversaries">Anniversaries</button>
+                <button class="occasion-btn" data-category="weddings">Weddings</button>
+                <button class="occasion-btn" data-category="holidays">Holidays</button>
+            </div>
+            
+            <div class="product-grid">
+                <!-- Product cards will be dynamically updated -->
+            </div>
+        </section>
+    </main>
+    
+    <footer style="background-color: black; color: white; padding: 1rem 0;">
+        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; text-align: center;">
+            <div>
+                <h3 style="margin-bottom: 0.5rem;">Help</h3>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 1rem;">FAQs</a>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 1rem;">Shipping</a>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 1rem;">Returns</a>
+                <a href="#" style="color: white; text-decoration: none;">Contact Us</a>
+            </div>
+            <div>
+                <h3 style="margin-bottom: 0.5rem;">About PAGU</h3>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 1rem;">Our Story</a>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 1rem;">Blog</a>
+                <a href="#" style="color: white; text-decoration: none; margin-right: 1rem;">Careers</a>
+                <a href="#" style="color: white; text-decoration: none;">Privacy Policy</a>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <p>&copy; 2025 PAGU Gifts. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="chatbot-button">💬 Need Assistance?</div>
+    <div class="chatbot-window" style="display: none;">
+        <div class="chatbot-header">
+            <h3>How can we help you?</h3>
+            <button class="close-chat">✖</button>
+        </div>
+        <div class="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Type your message...">
+            <button>Send</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales del carrito
+        const cartItems = [];
+        const cartDetails = document.querySelector('.cart-details');
+        const cartItemsList = document.querySelector('.cart-items');
+        const cartTotal = document.querySelector('.cart-total');
+        const cartCount = document.querySelector('.cart-count');
+        
+        // Datos de productos (simulando una base de datos)
+        const productData = {
+            birthdays: [
+                { title: "Birthday Mug", category: "Birthdays", price: 12.99, image: "img/birthday mug.jpeg" },
+                { title: "Custom T-Shirt", category: "Birthdays", price: 19.99, image: "img/tshirt.jpg" }
+            ],
+            anniversaries: [
+                { title: "Anniversary Frame", category: "Anniversaries", price: 25.99, image: "img/frame.jpg" },
+                { title: "Engraved Jewelry", category: "Anniversaries", price: 49.99, image: "img/a2.png" }
+            ],
+            weddings: [
+                { title: "Wedding Album", category: "Weddings", price: 39.99, image: "img/a3.png" },
+                { title: "Custom Wine Glasses", category: "Weddings", price: 29.99, image: "img/a4.png" }
+            ],
+            holidays: [
+                { title: "Holiday Ornament", category: "Holidays", price: 9.99, image: "img/a5.png" },
+                { title: "Gift Basket", category: "Holidays", price: 34.99, image: "img/x.png" }
+            ]
+        };
+
+        // Función global para agregar al carrito
+        function addToCart(product) {
+            const existingItem = cartItems.find(item => item.title === product.title);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cartItems.push({ ...product, quantity: 1 });
+            }
+            updateCart();
+            cartDetails.style.display = 'block';
+        }
+
+        // Función global para actualizar el carrito
+        function updateCart() {
+            cartItemsList.innerHTML = '';
+            let totalAmount = 0;
+
+            cartItems.forEach((item, index) => {
+                const cartItem = document.createElement('li');
+                cartItem.style.display = 'flex';
+                cartItem.style.justifyContent = 'space-between';
+                cartItem.style.alignItems = 'center';
+                cartItem.style.marginBottom = '0.5rem';
+                
+                cartItem.innerHTML = `
+                    <span>${item.title} (x${item.quantity})</span>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    <button class="remove-from-cart" data-index="${index}">×</button>
+                `;
+                cartItemsList.appendChild(cartItem);
+                totalAmount += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = `Total: $${totalAmount.toFixed(2)}`;
+            cartCount.textContent = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Si no hay items, ocultar el carrito
+            if (cartItems.length === 0) {
+                cartDetails.style.display = 'none';
+            }
+        }
+
+        // Función global para remover del carrito
+        function removeFromCart(index) {
+            if (cartItems[index].quantity > 1) {
+                cartItems[index].quantity--;
+            } else {
+                cartItems.splice(index, 1);
+            }
+            updateCart();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const productGrid = document.querySelector('.product-grid');
+            const occasionButtons = document.querySelectorAll('.occasion-btn');
+
+            function updateProducts(category) {
+                productGrid.innerHTML = '';
+                let products = [];
+                
+                if (category === 'all') {
+                    // Flatten all products into a single array
+                    products = Object.values(productData).flat();
+                } else if (productData[category]) {
+                    products = productData[category];
+                }
+                
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    
+                    productCard.innerHTML = `
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.title}" onerror="this.src='https://via.placeholder.com/250x200?text=PAGU'">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.title}</h3>
+                            <p class="product-category">${product.category}</p>
+                            <p class="product-price">$${product.price.toFixed(2)}</p>
+                            <div class="product-actions">
+                                <button class="add-to-cart">Add to Cart</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Agregar event listener directamente al botón
+                    productCard.querySelector('.add-to-cart').addEventListener('click', () => {
+                        addToCart(product);
+                    });
+                    
+                    productGrid.appendChild(productCard);
+                });
+            }
+
+            // Event listener para el ícono del carrito
+            document.querySelector('.cart-icon').addEventListener('click', () => {
+                if (cartDetails.style.display === 'none' || cartDetails.style.display === '') {
+                    cartDetails.style.display = 'block';
+                } else {
+                    cartDetails.style.display = 'none';
+                }
+            });
+
+            // Event listener para cerrar el carrito al hacer clic fuera
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.cart-details') && 
+                    !e.target.closest('.cart-icon') && 
+                    cartDetails.style.display === 'block') {
+                    cartDetails.style.display = 'none';
+                }
+            });
+
+            // Event delegation para los botones de remover
+            cartItemsList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-from-cart')) {
+                    const index = parseInt(e.target.dataset.index);
+                    removeFromCart(index);
+                }
+            });
+
+            // Event listener para el botón de checkout
+            document.querySelector('.checkout-btn').addEventListener('click', () => {
+                if (cartItems.length > 0) {
+                    alert('¡thank you for your purchase; you can pass to pick it up at the store!');
+                    cartItems.length = 0; // Vaciar el carrito
+                    updateCart();
+                } else {
+                    alert('your trolley is empty');
+                }
+            });
+
+            // Event listeners para los botones de ocasión
+            occasionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    occasionButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    updateProducts(button.dataset.category);
+                });
+            });
+
+            // Cargar todos los productos por defecto
+            updateProducts('all');
+        });
+
+        // Chatbot functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatbotButton = document.querySelector('.chatbot-button');
+            const chatbotWindow = document.querySelector('.chatbot-window');
+            const closeChat = document.querySelector('.close-chat');
+            const chatMessages = document.querySelector('.chatbot-messages');
+            const chatInput = document.querySelector('.chatbot-input input');
+            const chatSendButton = document.querySelector('.chatbot-input button');
+
+            const botResponses = {
+                greetings: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening'],
+                farewells: ['bye', 'goodbye', 'see you', 'farewell', 'have a good day'],
+                affirmative: ['ok', 'okay', 'perfect', 'great', 'good', 'alright', 'sure', 'yes', 'yep', 'got it', 'understood', 'sounds good', 'that works'],
+                gratitude: ['thanks', 'thank you', 'appreciate it', 'grateful', 'thx', 'ty', 'thankyou', 'thanks a lot', 'many thanks'],
+                recommendations: [
+                    'recommend', 'suggestion', 'gift', 'present', 'idea', 'father', 'dad', 'mother', 'mom', 'brother', 'sister', 'daughter', 'son',
+                    'husband', 'wife', 'spouse', 'boyfriend', 'girlfriend', 'boss', 'friend', 'birthday', 'wedding', 'anniversary', 'christmas', 'valentine', 'graduation', 'halloween', 'easter', 'new year'
+                ],
+                occasions: ['birthday', 'wedding', 'anniversary', 'christmas', 'valentine', 'graduation', 'halloween', 'easter', 'new year'],
+                negative: ['no', 'nope', 'nah', "don't", 'dont', 'not', 'neither', 'nothing', "isn't", 'isnt', 'cant', "can't"],
+                hours: ['open', 'close', 'closed', 'closing', 'opening', 'hours', 'schedule', 'time', 'when'],
+                days: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'weekend', 'weekday', 'today', 'tomorrow'],
+                responses: {
+                    greeting: "Hello! How can I help you today?",
+                    farewell: "Thank you for chatting with us! Have a great day!",
+                    recommendations: [
+                        "For birthdays, I recommend our personalized Birthday Mug or Custom T-Shirt.",
+                        "For anniversaries, our Engraved Jewelry makes a perfect gift!",
+                        "Our Wedding Album is very popular for wedding celebrations.",
+                        "For holidays, our Gift Baskets are always a great choice!"
+                    ],
+                    hours: {
+                        schedule: [
+                            "We're open Monday to Friday, from 10:00 AM to 10:00 PM!",
+                            "Our store hours are 10 AM - 10 PM, Monday through Friday.",
+                            "You can visit us any weekday between 10:00 AM and 10:00 PM!"
+                        ],
+                        opening: "We open at 10:00 AM, Monday through Friday.",
+                        closing: "We close at 10:00 PM, Monday through Friday.",
+                        weekend: "We're closed on weekends. Please visit us Monday through Friday, 10 AM to 10 PM.",
+                        default: "Our regular hours are Monday to Friday, 10:00 AM to 10:00 PM."
+                    },
+                    family: {
+                        father: [
+                            "For fathers, I recommend our Personalized Tool Set ($49.99)",
+                            "A Classic Leather Wallet would be perfect for dad ($39.99)",
+                            "Our Custom Photo Watch is a great gift for fathers ($79.99)"
+                        ],
+                        mother: [
+                            "For mothers, our Personalized Jewelry Box is very popular ($45.99)",
+                            "A Luxury Spa Gift Set would be perfect for mom ($59.99)",
+                            "Our Custom Photo Frame with family pictures is ideal ($34.99)"
+                        ],
+                        brother: [
+                            "For brothers, our Gaming Accessories Set is a great choice ($49.99)",
+                            "A Custom Sports Jersey would be perfect ($69.99)",
+                            "Our Bluetooth Speakers are very popular with brothers ($54.99)"
+                        ],
+                        sister: [
+                            "For sisters, our Beauty Gift Set is always appreciated ($49.99)",
+                            "A Custom Name Necklace would be perfect ($39.99)",
+                            "Our Scented Candle Collection is very popular ($44.99)"
+                        ],
+                        daughter: [
+                            "For daughters, our Art Supply Set is perfect for creativity ($39.99)",
+                            "A Personalized Jewelry Box would be lovely ($34.99)",
+                            "Our Custom Name Backpack is very practical ($44.99)"
+                        ],
+                        son: [
+                            "For sons, our Science Experiment Kit is educational and fun ($45.99)",
+                            "A Custom Sports Equipment Set would be perfect ($59.99)",
+                            "Our Building Block Set is very engaging ($49.99)"
+                        ],
+                        spouse: {
+                            husband: [
+                                "For husbands, our Luxury Watch Set is a perfect choice ($199.99)",
+                                "A Custom Leather Briefcase would be elegant ($149.99)",
+                                "Our Premium Grooming Kit is very sophisticated ($89.99)"
+                            ],
+                            wife: [
+                                "For wives, our Diamond Jewelry Collection is exquisite ($299.99)",
+                                "A Luxury Designer Handbag would be perfect ($199.99)",
+                                "Our Premium Spa Day Package is very relaxing ($179.99)"
+                            ]
+                        },
+                        romantic: {
+                            boyfriend: [
+                                "For boyfriends, our Smart Watch is very trendy ($129.99)",
+                                "A Custom Photo Album of memories together ($49.99)",
+                                "Our Premium Headphones are perfect for music lovers ($159.99)"
+                            ],
+                            girlfriend: [
+                                "For girlfriends, our Personalized Jewelry Set is romantic ($89.99)",
+                                "A Luxury Makeup Collection would be perfect ($129.99)",
+                                "Our Designer Perfume Set is very elegant ($149.99)"
+                            ]
+                        },
+                        professional: {
+                            boss: [
+                                "For bosses, our Executive Pen Set is very professional ($79.99)",
+                                "A Premium Desktop Organizer would be appropriate ($69.99)",
+                                "Our Luxury Coffee/Tea Set shows good taste ($99.99)"
+                            ]
+                        },
+                        friends: [
+                            "For friends, our Friendship Bracelet Set is meaningful ($39.99)",
+                            "A Custom Photo Frame with shared memories ($44.99)",
+                            "Our Experience Gift Card is perfect for making new memories ($50.00)",
+                            "A Matching Best Friends Set would be special ($59.99)"
+                        ]
+                    },
+                    occasions: {
+                        birthday: [
+                            "For birthdays, our Deluxe Birthday Gift Box is very special ($79.99)",
+                            "The Personalized Birthday Memory Book makes a great gift ($49.99)",
+                            "Our Custom Birthday Photo Album captures precious moments ($59.99)"
+                        ],
+                        wedding: [
+                            "For weddings, our Luxury Wedding Collection is exquisite ($299.99)",
+                            "The Personalized Wedding Memory Box is timeless ($149.99)",
+                            "Our Custom Wedding Photo Album is elegant ($199.99)"
+                        ],
+                        anniversary: [
+                            "For anniversaries, our Love Story Photo Book is romantic ($89.99)",
+                            "The Crystal Anniversary Set is truly special ($129.99)",
+                            "Our Couples Gift Collection shows thoughtfulness ($179.99)"
+                        ],
+                        christmas: [
+                            "For Christmas, our Holiday Gift Collection is festive ($99.99)",
+                            "The Personalized Christmas Ornament Set is beautiful ($49.99)",
+                            "Our Family Christmas Photo Album creates memories ($69.99)"
+                        ],
+                        valentine: [
+                            "For Valentine's, our Luxury Love Gift Set is romantic ($149.99)",
+                            "The Heart Collection Jewelry Box is perfect ($129.99)",
+                            "Our Valentine's Special Package shows care ($159.99)"
+                        ],
+                        graduation: [
+                            "For graduation, our Achievement Collection celebrates success ($89.99)",
+                            "The Graduate's Special Gift Box is meaningful ($79.99)",
+                            "Our Future Leader Package is inspiring ($99.99)"
+                        ],
+                        halloween: [
+                            "For Halloween, our Spooky Gift Collection is fun ($59.99)",
+                            "The Halloween Party Package is exciting ($69.99)",
+                            "Our Halloween Memory Box captures the spirit ($49.99)"
+                        ],
+                        easter: [
+                            "For Easter, our Spring Celebration Set is delightful ($69.99)",
+                            "The Easter Gift Collection brings joy ($59.99)",
+                            "Our Easter Family Package is perfect ($79.99)"
+                        ],
+                        newYear: [
+                            "For New Year, our Celebration Package welcomes 2024 ($89.99)",
+                            "The New Beginning Gift Set is inspiring ($99.99)",
+                            "Our New Year Memory Collection starts fresh ($79.99)"
+                        ]
+                    },
+                    gratitude: [
+                        "You're welcome! Let me know if you need anything else.",
+                        "My pleasure! I'm here to help.",
+                        "Glad I could help! Feel free to ask more questions.",
+                        "You're very welcome! Is there anything else you'd like to know?",
+                        "No problem at all! Let me know if you need more assistance."
+                    ],
+                    affirmative: [
+                        "Great! Is there anything else you'd like to know?",
+                        "Perfect! Let me know if you need more suggestions.",
+                        "Wonderful! Feel free to ask about other gift ideas.",
+                        "Excellent! I'm here if you need more assistance.",
+                        "Sounds good! What else can I help you with?"
+                    ],
+                    negative: [
+                        "Let me suggest something else that might interest you.",
+                        "That's okay, I can help you find something different.",
+                        "No problem, we have many other options available.",
+                        "I understand. Would you like to see other gift ideas?",
+                        "Let me know what you're looking for and I'll find alternatives."
+                    ],
+                    default: "I apologize, but I'm not sure I understand. Would you like to speak with a real customer service representative? Please contact us at support@pagu.com"
+                }
+            };
+
+            function addMessage(message, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                messageDiv.textContent = message;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function processMessage(message) {
+                const lowerMessage = message.toLowerCase();
+                
+                // Check for hours/schedule related questions first
+                if (botResponses.hours.some(word => lowerMessage.includes(word)) || 
+                    botResponses.days.some(word => lowerMessage.includes(word))) {
+                    if (lowerMessage.includes('weekend') || lowerMessage.includes('saturday') || lowerMessage.includes('sunday')) {
+                        return botResponses.responses.hours.weekend;
+                    }
+                    if (lowerMessage.includes('close') || lowerMessage.includes('closing')) {
+                        return botResponses.responses.hours.closing;
+                    }
+                    if (lowerMessage.includes('open') || lowerMessage.includes('opening')) {
+                        return botResponses.responses.hours.opening;
+                    }
+                    return botResponses.responses.hours.schedule[
+                        Math.floor(Math.random() * botResponses.responses.hours.schedule.length)
+                    ];
+                }
+                
+                // Check for negative responses first
+                if (botResponses.negative.some(word => lowerMessage.includes(word))) {
+                    return botResponses.responses.negative[
+                        Math.floor(Math.random() * botResponses.responses.negative.length)
+                    ];
+                }
+                
+                // Check for special occasions first
+                if (lowerMessage.includes('birthday')) {
+                    return botResponses.responses.occasions.birthday[
+                        Math.floor(Math.random() * botResponses.responses.occasions.birthday.length)
+                    ];
+                }
+                if (lowerMessage.includes('wedding')) {
+                    return botResponses.responses.occasions.wedding[
+                        Math.floor(Math.random() * botResponses.responses.occasions.wedding.length)
+                    ];
+                }
+                if (lowerMessage.includes('anniversary')) {
+                    return botResponses.responses.occasions.anniversary[
+                        Math.floor(Math.random() * botResponses.responses.occasions.anniversary.length)
+                    ];
+                }
+                if (lowerMessage.includes('christmas')) {
+                    return botResponses.responses.occasions.christmas[
+                        Math.floor(Math.random() * botResponses.responses.occasions.christmas.length)
+                    ];
+                }
+                if (lowerMessage.includes('valentine')) {
+                    return botResponses.responses.occasions.valentine[
+                        Math.floor(Math.random() * botResponses.responses.occasions.valentine.length)
+                    ];
+                }
+                if (lowerMessage.includes('graduation')) {
+                    return botResponses.responses.occasions.graduation[
+                        Math.floor(Math.random() * botResponses.responses.occasions.graduation.length)
+                    ];
+                }
+                if (lowerMessage.includes('halloween')) {
+                    return botResponses.responses.occasions.halloween[
+                        Math.floor(Math.random() * botResponses.responses.occasions.halloween.length)
+                    ];
+                }
+                if (lowerMessage.includes('easter')) {
+                    return botResponses.responses.occasions.easter[
+                        Math.floor(Math.random() * botResponses.responses.occasions.easter.length)
+                    ];
+                }
+                if (lowerMessage.includes('new year')) {
+                    return botResponses.responses.occasions.newYear[
+                        Math.floor(Math.random() * botResponses.responses.occasions.newYear.length)
+                    ];
+                }
+                
+                // Check for gratitude first
+                if (botResponses.gratitude.some(word => lowerMessage.includes(word))) {
+                    return botResponses.responses.gratitude[
+                        Math.floor(Math.random() * botResponses.responses.gratitude.length)
+                    ];
+                }
+                
+                // First check for affirmative responses
+                if (botResponses.affirmative.some(word => lowerMessage.includes(word))) {
+                    return botResponses.responses.affirmative[
+                        Math.floor(Math.random() * botResponses.responses.affirmative.length)
+                    ];
+                }
+                
+                // Check for greetings
+                if (botResponses.greetings.some(greeting => lowerMessage.includes(greeting))) {
+                    return botResponses.responses.greeting;
+                }
+                
+                // Check for farewells
+                if (botResponses.farewells.some(farewell => lowerMessage.includes(farewell))) {
+                    return botResponses.responses.farewell;
+                }
+                
+                // Check for family-specific recommendations
+                if (lowerMessage.includes('father') || lowerMessage.includes('dad')) {
+                    return botResponses.responses.family.father[Math.floor(Math.random() * botResponses.responses.family.father.length)];
+                }
+                if (lowerMessage.includes('mother') || lowerMessage.includes('mom')) {
+                    return botResponses.responses.family.mother[Math.floor(Math.random() * botResponses.responses.family.mother.length)];
+                }
+                if (lowerMessage.includes('brother')) {
+                    return botResponses.responses.family.brother[Math.floor(Math.random() * botResponses.responses.family.brother.length)];
+                }
+                if (lowerMessage.includes('sister')) {
+                    return botResponses.responses.family.sister[Math.floor(Math.random() * botResponses.responses.family.sister.length)];
+                }
+                if (lowerMessage.includes('daughter')) {
+                    return botResponses.responses.family.daughter[Math.floor(Math.random() * botResponses.responses.family.daughter.length)];
+                }
+                if (lowerMessage.includes('son')) {
+                    return botResponses.responses.family.son[Math.floor(Math.random() * botResponses.responses.family.son.length)];
+                }
+                
+                // Check for relationship-specific recommendations
+                if (lowerMessage.includes('husband')) {
+                    return botResponses.responses.family.spouse.husband[
+                        Math.floor(Math.random() * botResponses.responses.family.spouse.husband.length)
+                    ];
+                }
+                if (lowerMessage.includes('wife')) {
+                    return botResponses.responses.family.spouse.wife[
+                        Math.floor(Math.random() * botResponses.responses.family.spouse.wife.length)
+                    ];
+                }
+                if (lowerMessage.includes('boyfriend')) {
+                    return botResponses.responses.family.romantic.boyfriend[
+                        Math.floor(Math.random() * botResponses.responses.family.romantic.boyfriend.length)
+                    ];
+                }
+                if (lowerMessage.includes('girlfriend')) {
+                    return botResponses.responses.family.romantic.girlfriend[
+                        Math.floor(Math.random() * botResponses.responses.family.romantic.girlfriend.length)
+                    ];
+                }
+                if (lowerMessage.includes('boss')) {
+                    return botResponses.responses.family.professional.boss[
+                        Math.floor(Math.random() * botResponses.responses.family.professional.boss.length)
+                    ];
+                }
+                if (lowerMessage.includes('friend')) {
+                    return botResponses.responses.family.friends[
+                        Math.floor(Math.random() * botResponses.responses.family.friends.length)
+                    ];
+                }
+                
+                // Check for general recommendations
+                if (botResponses.recommendations.some(keyword => lowerMessage.includes(keyword))) {
+                    return botResponses.responses.recommendations[Math.floor(Math.random() * botResponses.responses.recommendations.length)];
+                }
+                
+                // Default response
+                return botResponses.responses.default;
+            }
+
+            function handleChat() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    chatInput.value = '';
+                    
+                    // Simulate typing delay
+                    setTimeout(() => {
+                        const response = processMessage(message);
+                        addMessage(response);
+                    }, 500);
+                }
+            }
+
+            chatbotButton.addEventListener('click', () => {
+                chatbotWindow.style.display = 'flex';
+                chatbotButton.style.display = 'none';
+                addMessage("Welcome to PAGU! How can I assist you today?");
+            });
+
+            closeChat.addEventListener('click', () => {
+                chatbotWindow.style.display = 'none';
+                chatbotButton.style.display = 'block';
+                chatMessages.innerHTML = '';
+            });
+
+            chatSendButton.addEventListener('click', handleChat);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleChat();
+            });
+        });
+    </script>
+</body>
+</html>
+``` 
